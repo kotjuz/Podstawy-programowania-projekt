@@ -17,7 +17,7 @@ class Player():
             else:
                 break
         if ile >= len(picks) - 1:
-            if pick == picks[len(picks)-1] + 10:
+            if pick == picks[len(picks)-1] + 10 or pick == picks[0] - 10:
                 return True
 
         ile = 0
@@ -27,7 +27,7 @@ class Player():
             else:
                 break
         if ile >= len(picks) - 1:
-            if pick == picks[len(picks)-1] + 1:
+            if pick == picks[len(picks)-1] + 1 or pick == picks[0] - 1:
                 return True
         return False
 
@@ -56,6 +56,7 @@ class Player():
         for j in range(2):
             picks = []
             i = 1
+            print(f"Ustaw {j + 1}")
             while i < 4:
                 pick = int(input(f"Wybierz {i} miejsce: "))
                 if pick < 1 or pick > 100:
