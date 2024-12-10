@@ -31,7 +31,7 @@ class Player:
 
     def set_board(self):
         def place_ship(size, count):
-            for _ in range(count):
+            for i in range(count):
                 picks = []
                 print(f"Ustaw swój {size}-masztowiec!")
                 while len(picks) < size:
@@ -45,16 +45,13 @@ class Player:
                     else:
                         picks.append(pick)
                         self.board[pick - 1] = "S"
+                self.print_board()
 
         print(f"Graczu {self.nr}! Ustaw swoje statki.")
         place_ship(4, 1)
-        self.print_board()
         place_ship(3, 2)
-        self.print_board()
         place_ship(2, 3)
-        self.print_board()
         place_ship(1, 4)
-        self.print_board()
 
     def print_board(self):
         cell_width = 3
