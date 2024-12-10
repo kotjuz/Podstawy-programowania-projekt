@@ -1,4 +1,6 @@
 import sys
+import os
+import time
 
 class Player:
     def __init__(self, nr):
@@ -72,6 +74,7 @@ class Player:
     def set_board(self):
         def place_ship(size, count):
             for i in range(count):
+                self.print_board(self.board)
                 picks = []
                 print(f"Ustaw swój {size}-masztowiec!")
                 while len(picks) < size:
@@ -87,13 +90,14 @@ class Player:
                     else:
                         picks.append(pick)
                         self.board[pick - 1] = "S"
-                self.print_board(self.board)
+                os.system("cls")
 
         print(f"Graczu {self.nr}! Ustaw swoje statki.")
         place_ship(4, 1)
         place_ship(3, 2)
         place_ship(2, 3)
         place_ship(1, 4)
+
 
     def print_board(self, board):
         cell_width = 3
@@ -108,6 +112,7 @@ class Player:
 
 
     def shoot(self):
+        self.print_board(self.shoots_board)
         print(f"Graczu {self.nr}! Twoja kolej na strzal")
         pick = int(input("Twój strzal: "))
 
@@ -120,10 +125,12 @@ class Player:
                 print(f"Koniec gry! Gracz {self.nr} wygrywa!")
                 sys.exit()
             pick = int(input("Twój kolejny strzal: "))
+            os.system("cls")
 
         self.shoots_board[pick - 1] = "X"
         self.print_board(self.shoots_board)
         print("Pudlo! Kolej przeciwnika.")
+        time.sleep(1)
 
 
     def check_for_win(self):
