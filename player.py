@@ -117,16 +117,19 @@ class Player:
         pick = int(input("Twój strzal: "))
 
         while self.enemy_board[pick - 1] == "S":
+            os.system("cls")
             self.shoots_board[pick - 1] = "*"
             self.enemy_board[pick - 1] = 0
             self.print_board(self.shoots_board)
             print("Brawo! Trafiles!")
             if self.check_for_win():
+                os.system("cls")
                 print(f"Koniec gry! Gracz {self.nr} wygrywa!")
+                time.sleep(2)
                 sys.exit()
             pick = int(input("Twój kolejny strzal: "))
-            os.system("cls")
 
+        os.system("cls")
         self.shoots_board[pick - 1] = "X"
         self.print_board(self.shoots_board)
         print("Pudlo! Kolej przeciwnika.")
