@@ -1,7 +1,14 @@
+import sys
+
 class Player:
     def __init__(self, nr):
         self.board = list(range(1, 101))
+        self.shoots_board = list(range(1, 101))
+        self.enemy_board = None
         self.nr = nr
+
+    def set_enemy_board(self, enemy_board):
+        self.enemy_board = enemy_board
 
     def is_pick_next_to_before(self, picks, pick):
         if not picks:
@@ -80,7 +87,7 @@ class Player:
                     else:
                         picks.append(pick)
                         self.board[pick - 1] = "S"
-                self.print_board()
+                self.print_board(self.board)
 
         print(f"Graczu {self.nr}! Ustaw swoje statki.")
         place_ship(4, 1)
@@ -88,13 +95,40 @@ class Player:
         place_ship(2, 3)
         place_ship(1, 4)
 
-    def print_board(self):
+    def print_board(self, board):
         cell_width = 3
         horizontal_border = "+" + "-" * (10 * (cell_width + 1) + 1) + "+"
 
         print(horizontal_border)
-        for i in range(0, len(self.board), 10):
-            row = self.board[i:i + 10]
+        for i in range(0, len(board), 10):
+            row = board[i:i + 10]
             row_content = "| " + " ".join(f"{cell:>{cell_width}}" for cell in row) + " |"
             print(row_content)
         print(horizontal_border)
+
+
+    def shoot(self):
+        print(f"Graczu {self.nr}! Twoja kolej na strzal")
+        pick = int(input("Twój strzal: "))
+
+        while self.enemy_board[pick - 1] == "S":
+            self.shoots_board[pick - 1] = "*"
+            self.enemy_board[pick - 1] = 0
+            self.print_board(self.shoots_board)
+            print("Brawo! Trafiles!")
+            if self.check_for_win():
+                print(f"Koniec gry! Gracz {self.nr} wygrywa!")
+                sys.exit()
+            pick = int(input("Twój kolejny strzal: "))
+
+        self.shoots_board[pick - 1] = "X"
+        self.print_board(self.shoots_board)
+        print("Pudlo! Kolej przeciwnika.")
+
+
+    def check_for_win(self):
+        for i in range(100):
+            if self.enemy_board[i] == "S":
+                return False
+        return True
+
