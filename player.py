@@ -98,3 +98,16 @@ class Player:
             row_content = "| " + " ".join(f"{cell:>{cell_width}}" for cell in row) + " |"
             print(row_content)
         print(horizontal_border)
+
+    def print_grid(grid):
+        """Wyświetla planszę"""
+        cell_width = 3
+        horizontal_border = "  +" + ("-" * cell_width + "+") * GRID_SIZE
+        column_labels = "  " + " ".join(f"{chr(65 + i):^{cell_width}}" for i in range(GRID_SIZE))
+
+        print(column_labels)
+        print(horizontal_border)
+        for i, row in enumerate(grid):
+            row_content = f"{i:<2}|" + "|".join(f"{cell:^{cell_width}}" for cell in row) + "|"
+            print(row_content)
+            print(horizontal_border)
