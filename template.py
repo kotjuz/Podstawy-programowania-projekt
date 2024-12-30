@@ -1,3 +1,5 @@
+import random
+
 class BoardTemplates:
     def __init__(self):
         self.templates = [
@@ -57,3 +59,5 @@ class BoardTemplates:
             91, "S", "S", "S", 95, 96, 97, 98, 99, 100]
 
         ]
+    def get_random_template(self):
+        return random.choice(self.templates)

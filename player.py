@@ -1,6 +1,9 @@
 import sys
 import os
 import time
+from template import BoardTemplates
+
+
 
 class Player:
     def __init__(self, nr):
@@ -12,6 +15,7 @@ class Player:
         self.nr = nr
         self.name = self.set_name()
 
+        self.BoardTemplates = BoardTemplates()
 
 
 
@@ -24,6 +28,48 @@ class Player:
 
     def set_enemy_ships(self, enemy_ships):
         self.enemy_ships = enemy_ships
+
+
+
+    def print_board(self, board):
+        RED = '\033[31m'
+        GREEN = '\033[32m'
+        BLUE = '\033[34m'
+        RESET = '\033[0m'
+
+        cell_width = 3
+        horizontal_border = "+" + "-" * (10 * (cell_width + 1) + 1) + "+"
+
+        print(horizontal_border)
+        for i in range(0, len(board), 10):
+            row = board[i:i + 10]
+            row_content = "| "
+            for cell in row:
+
+                if cell == 'X':
+                    row_content += f"{RED}{cell:>{cell_width}}{RESET} "
+                elif cell == '*':
+                    row_content += f"{GREEN}{cell:>{cell_width}}{RESET} "
+                elif cell == 'S':
+                    row_content += f"{BLUE}{cell:>{cell_width}}{RESET} "
+                elif cell == '0':
+                    row_content += f"{RED}{cell:>{cell_width}}{RESET} "
+                else:
+                    row_content += f"{cell:>{cell_width}} "  
+            row_content += "|"
+            print(row_content)
+        print(horizontal_border)
+
+    # def print_board(self, board):
+    #     cell_width = 3
+    #     horizontal_border = "+" + "-" * (10 * (cell_width + 1) + 1) + "+"
+    #
+    #     print(horizontal_border)
+    #     for i in range(0, len(board), 10):
+    #         row = board[i:i + 10]
+    #         row_content = "| " + " ".join(f"{cell:>{cell_width}}" for cell in row) + " |"
+    #         print(row_content)
+    #     print(horizontal_border)
 
     def print_remaining_enemy_ships(self):
 
@@ -110,6 +156,45 @@ class Player:
 
         return False
 
+
+    def set_board_or_random(self):
+        print(f"Graczu {self.name}!")
+        print("Pora na ustawienie swoich statków.")
+
+        time.sleep(1)
+
+        print("""+-------------------------------------+
+|                                     |
+|     1. Ustaw statki samodzielnie    |
+|     2. Generuj statki losowo        |
+|                                     |
++-------------------------------------+
+""")
+        chose = input(": ")
+        if chose != "1" and chose != "2":
+            print("Masz do wyboru tylko '1' lub '2', nic wiecej.")
+            time.sleep(1.5)
+            os.system("cls")
+            self.set_board_or_random()
+        elif chose == "1":
+            os.system("cls")
+            self.set_board()
+        elif chose == "2":
+            os.system("cls")
+
+            while chose != "A":
+                random_board = self.BoardTemplates.get_random_template()
+                self.print_board(random_board)
+                print("Wpisz 'R', aby wylosować inną planszę.")
+                print("Aby zaakceptować aktualną planszę, wpisz 'A'")
+                chose = input(": ")
+                os.system('cls')
+
+            self.board = random_board
+
+
+
+
     def set_board(self):
         def place_ship(size, count):
             for i in range(count):
@@ -138,18 +223,6 @@ class Player:
         place_ship(3, 2)
         place_ship(2, 3)
         place_ship(1, 4)
-
-
-    def print_board(self, board):
-        cell_width = 3
-        horizontal_border = "+" + "-" * (10 * (cell_width + 1) + 1) + "+"
-
-        print(horizontal_border)
-        for i in range(0, len(board), 10):
-            row = board[i:i + 10]
-            row_content = "| " + " ".join(f"{cell:>{cell_width}}" for cell in row) + " |"
-            print(row_content)
-        print(horizontal_border)
 
 
 
