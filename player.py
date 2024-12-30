@@ -6,9 +6,12 @@ class Player:
     def __init__(self, nr):
         self.board = list(range(1, 101))
         self.shoots_board = list(range(1, 101))
-        self.enemy_board = None
+        self.enemy_board = []
+        self.ships = []
+        self.enemy_ships = []
         self.nr = nr
         self.name = self.set_name()
+
 
 
 
@@ -18,6 +21,35 @@ class Player:
 
     def set_enemy_board(self, enemy_board):
         self.enemy_board = enemy_board
+
+    def set_enemy_ships(self, enemy_ships):
+        self.enemy_ships = enemy_ships
+
+    def print_remaining_enemy_ships(self):
+
+        ship_types = [
+            (4, 1),
+            (3, 2),
+            (2, 3),
+            (1, 4),
+        ]
+
+        for ship in self.enemy_ships:
+            for i in range(len(ship)):
+                if ship[i] != "X" and self.shoots_board[ship[i] - 1] == "*":
+                    ship[i] = "X"
+
+        print("Pozostala flota przeciwnika:")
+        for ship_size, count in ship_types:
+            for ship in self.enemy_ships:
+                if len(ship) == ship_size:
+                    if all(position == 'X' for position in ship):
+                        print("X" * ship_size)
+                    else:
+                        print("■" * ship_size)
+
+
+
 
     def is_pick_next_to_before(self, picks, pick):
         if not picks:
@@ -97,6 +129,7 @@ class Player:
                     else:
                         picks.append(pick)
                         self.board[pick - 1] = "S"
+                self.ships.append(picks)
                 os.system("cls")
 
         print(f"Graczu {self.name}! Ustaw swoje statki.")
@@ -117,6 +150,8 @@ class Player:
             row_content = "| " + " ".join(f"{cell:>{cell_width}}" for cell in row) + " |"
             print(row_content)
         print(horizontal_border)
+
+
 
 
     def shoot_or_show_board(self):
@@ -146,6 +181,7 @@ class Player:
 
 
     def shoot(self):
+        self.print_remaining_enemy_ships()
         self.print_board(self.shoots_board)
         print(f"Graczu {self.name}! Twoja kolej na strzal")
         pick = int(input("Twój strzal: "))
@@ -154,6 +190,7 @@ class Player:
             os.system("cls")
             self.shoots_board[pick - 1] = "*"
             self.enemy_board[pick - 1] = 0
+            self.print_remaining_enemy_ships()
             self.print_board(self.shoots_board)
             print("Brawo! Trafiles!")
             if self.check_for_win():
