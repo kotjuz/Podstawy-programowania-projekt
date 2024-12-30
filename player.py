@@ -298,6 +298,9 @@ class Player:
                     os.system("cls")
                     print(f"Koniec gry! Gracz {self.name} wygrywa!")
                     time.sleep(2)
+                    print("Oto jego plansza:")
+                    self.print_board(self.board)
+                    input()
                     sys.exit()
 
                 try:
@@ -316,7 +319,8 @@ class Player:
                     pick = new_pick
 
             os.system("cls")
-            self.shoots_board[pick - 1] = "X"
+            if self.shoots_board[pick - 1] != "*":
+                self.shoots_board[pick - 1] = "X"
             self.print_board(self.shoots_board)
             print("Pudlo! Kolej przeciwnika.")
             time.sleep(1)
