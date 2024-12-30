@@ -185,12 +185,13 @@ class Player:
             while chose != "A":
                 random_board = self.BoardTemplates.get_random_template()
                 self.print_board(random_board)
-                print("Wpisz 'R', aby wylosować inną planszę.")
+                print("Wpisz cokolwiek, aby wylosować inną planszę.")
                 print("Aby zaakceptować aktualną planszę, wpisz 'A'")
                 chose = input(": ")
                 os.system('cls')
 
             self.board = random_board
+            self.ships = self.BoardTemplates.get_ships_placement(random_board)
 
 
 
@@ -281,9 +282,12 @@ class Player:
                 is_error = True
 
         if is_error:
+            time.sleep(2)
             self.shoot()
         else:
-            while self.enemy_board[pick - 1] == "S":
+            powtorka = False
+            while self.enemy_board[pick - 1] == "S" or powtorka:
+                powtorka = False
                 os.system("cls")
                 self.shoots_board[pick - 1] = "*"
                 self.enemy_board[pick - 1] = 0
@@ -295,15 +299,21 @@ class Player:
                     print(f"Koniec gry! Gracz {self.name} wygrywa!")
                     time.sleep(2)
                     sys.exit()
+
                 try:
-                    pick = int(input("Twój kolejny strzal: "))
+                    new_pick = int(input("Twój kolejny strzal: "))
                 except ValueError:
                     print("Musisz podać liczbę lub cyfrę.")
+                    time.sleep(2)
+                    powtorka = True
                     continue
                 else:
-                    if pick < 0 or pick > 100:
+                    if new_pick < 0 or new_pick > 100:
                         print("Liczba musi być z zakresu planszy (1 - 100).")
+                        time.sleep(2)
+                        powtorka = True
                         continue
+                    pick = new_pick
 
             os.system("cls")
             self.shoots_board[pick - 1] = "X"
