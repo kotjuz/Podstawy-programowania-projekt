@@ -45,11 +45,11 @@ os.system('cls')
 
 
 
-player1.set_board()
+player1.set_board_or_random()
 os.system('cls')
 
 
-player2.set_board()
+player2.set_board_or_random()
 os.system('cls')
 
 
