@@ -24,6 +24,17 @@ ________________________________________________________________________________
 """)
 
 time.sleep(3)
+
+print("""Legenda:
+
+S - Miejsce Twoich statków
+X - Miejsce Twojego strzału (pudło)
+* - Miejsce Twojego strzału (trafiony cel)
+0 - Miejsce strzału celnego przeciwnika
+__________________________________________________________________________________________________________________""")
+
+
+time.sleep(3)
 input("Aby przejść dalej, kliknij ENTER.")
 os.system('cls')
 
@@ -41,8 +52,14 @@ os.system('cls')
 player2.set_board()
 os.system('cls')
 
+
 player1.set_enemy_board(player2.board)
 player2.set_enemy_board(player1.board)
+
+player1.set_enemy_ships(player2.ships)
+player2.set_enemy_ships(player1.ships)
+
+
 
 while True:
     os.system('cls')
