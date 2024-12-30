@@ -8,6 +8,13 @@ class Player:
         self.shoots_board = list(range(1, 101))
         self.enemy_board = None
         self.nr = nr
+        self.name = self.set_name()
+
+
+
+    def set_name(self):
+        name = input(f"Graczu {self.nr}! Wybierz swoje imie: ")
+        return name
 
     def set_enemy_board(self, enemy_board):
         self.enemy_board = enemy_board
@@ -92,7 +99,8 @@ class Player:
                         self.board[pick - 1] = "S"
                 os.system("cls")
 
-        print(f"Graczu {self.nr}! Ustaw swoje statki.")
+        print(f"Graczu {self.name}! Ustaw swoje statki.")
+        time.sleep(1.5)
         place_ship(4, 1)
         place_ship(3, 2)
         place_ship(2, 3)
@@ -113,7 +121,7 @@ class Player:
 
     def shoot(self):
         self.print_board(self.shoots_board)
-        print(f"Graczu {self.nr}! Twoja kolej na strzal")
+        print(f"Graczu {self.name}! Twoja kolej na strzal")
         pick = int(input("Twój strzal: "))
 
         while self.enemy_board[pick - 1] == "S":
@@ -124,7 +132,7 @@ class Player:
             print("Brawo! Trafiles!")
             if self.check_for_win():
                 os.system("cls")
-                print(f"Koniec gry! Gracz {self.nr} wygrywa!")
+                print(f"Koniec gry! Gracz {self.name} wygrywa!")
                 time.sleep(2)
                 sys.exit()
             pick = int(input("Twój kolejny strzal: "))
