@@ -39,7 +39,7 @@ class Player:
                 if ship[i] != "X" and self.shoots_board[ship[i] - 1] == "*":
                     ship[i] = "X"
 
-
+        print("Pozostala flota przeciwnika:")
         for ship_size, count in ship_types:
             for ship in self.enemy_ships:
                 if len(ship) == ship_size:
