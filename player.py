@@ -52,10 +52,10 @@ class Player:
                     row_content += f"{GREEN}{cell:>{cell_width}}{RESET} "
                 elif cell == 'S':
                     row_content += f"{BLUE}{cell:>{cell_width}}{RESET} "
-                elif cell == '0':
+                elif cell == 0:
                     row_content += f"{RED}{cell:>{cell_width}}{RESET} "
                 else:
-                    row_content += f"{cell:>{cell_width}} "  
+                    row_content += f"{cell:>{cell_width}} "
             row_content += "|"
             print(row_content)
         print(horizontal_border)
@@ -185,12 +185,13 @@ class Player:
             while chose != "A":
                 random_board = self.BoardTemplates.get_random_template()
                 self.print_board(random_board)
-                print("Wpisz 'R', aby wylosować inną planszę.")
+                print("Wpisz cokolwiek, aby wylosować inną planszę.")
                 print("Aby zaakceptować aktualną planszę, wpisz 'A'")
                 chose = input(": ")
                 os.system('cls')
 
             self.board = random_board
+            self.ships = self.BoardTemplates.get_ships_placement(random_board)
 
 
 
@@ -202,7 +203,16 @@ class Player:
                 picks = []
                 print(f"Ustaw swój {size}-masztowiec!")
                 while len(picks) < size:
-                    pick = int(input(f"Wybierz {len(picks) + 1} miejsce: "))
+                    try:
+                        pick = int(input(f"Wybierz {len(picks) + 1} miejsce: "))
+                    except ValueError:
+                        print("Musisz podać liczbę lub cyfrę.")
+                        continue
+                    else:
+                        if pick < 0 or pick > 100:
+                            print("Liczba musi być z zakresu planszy (1 - 100).")
+                            continue
+
                     if len(picks) < 1 and not self.check_for_space(size, pick):
                         print("Nie możesz tutaj postawić statku, ponieważ nie zmieścisz go calego. Spróbuj ponownie.")
                     elif pick < 1 or pick > 100:
@@ -254,30 +264,62 @@ class Player:
 
 
     def shoot(self):
+        os.system("cls")
         self.print_remaining_enemy_ships()
         self.print_board(self.shoots_board)
         print(f"Graczu {self.name}! Twoja kolej na strzal")
-        pick = int(input("Twój strzal: "))
 
-        while self.enemy_board[pick - 1] == "S":
-            os.system("cls")
-            self.shoots_board[pick - 1] = "*"
-            self.enemy_board[pick - 1] = 0
-            self.print_remaining_enemy_ships()
-            self.print_board(self.shoots_board)
-            print("Brawo! Trafiles!")
-            if self.check_for_win():
+        is_error = False
+
+        try:
+            pick = int(input("Podaj swój strzal: "))
+        except ValueError:
+            print("Musisz podać liczbę lub cyfrę.")
+            is_error = True
+        else:
+            if pick < 0 or pick > 100:
+                print("Liczba musi być z zakresu planszy (1 - 100).")
+                is_error = True
+
+        if is_error:
+            time.sleep(2)
+            self.shoot()
+        else:
+            powtorka = False
+            while self.enemy_board[pick - 1] == "S" or powtorka:
+                powtorka = False
                 os.system("cls")
-                print(f"Koniec gry! Gracz {self.name} wygrywa!")
-                time.sleep(2)
-                sys.exit()
-            pick = int(input("Twój kolejny strzal: "))
+                self.shoots_board[pick - 1] = "*"
+                self.enemy_board[pick - 1] = 0
+                self.print_remaining_enemy_ships()
+                self.print_board(self.shoots_board)
+                print("Brawo! Trafiles!")
+                if self.check_for_win():
+                    os.system("cls")
+                    print(f"Koniec gry! Gracz {self.name} wygrywa!")
+                    time.sleep(2)
+                    sys.exit()
 
-        os.system("cls")
-        self.shoots_board[pick - 1] = "X"
-        self.print_board(self.shoots_board)
-        print("Pudlo! Kolej przeciwnika.")
-        time.sleep(1)
+                try:
+                    new_pick = int(input("Twój kolejny strzal: "))
+                except ValueError:
+                    print("Musisz podać liczbę lub cyfrę.")
+                    time.sleep(2)
+                    powtorka = True
+                    continue
+                else:
+                    if new_pick < 0 or new_pick > 100:
+                        print("Liczba musi być z zakresu planszy (1 - 100).")
+                        time.sleep(2)
+                        powtorka = True
+                        continue
+                    pick = new_pick
+
+            os.system("cls")
+            self.shoots_board[pick - 1] = "X"
+            self.print_board(self.shoots_board)
+            print("Pudlo! Kolej przeciwnika.")
+            time.sleep(1)
 
 
     def check_for_win(self):
