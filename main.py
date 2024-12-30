@@ -14,7 +14,7 @@ time.sleep(2)
 
 print("""Zasady gry:
 - 2 graczy,
-- Flota 10 statków: 1 x 4 masztowiec, 2 x 3 masztowce, 3 x 2 masztowce, 1 x 4 masztowce,
+- Flota 10 statków: 1 x 4 masztowiec, 2 x 3 masztowce, 3 x 2 masztowce, 4 x 1 masztowce,
 - Statki mogą dotykać się brzegami,
 - Gracze na początek ustawiają swoje statki, następnie przechodzimy do oddawania strzalów w przeciwnika (turowo),
 - Jeżeli gracz 'trafi' statek przeciwnika, to w danej turze ma kolejny strzal (dopoki nie chybi)
