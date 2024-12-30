@@ -300,7 +300,7 @@ class Player:
                     time.sleep(2)
                     print("Oto jego plansza:")
                     self.print_board(self.board)
-                    input()
+                    input("Naciśnij ENTER, aby zakończyć.")
                     sys.exit()
 
                 try:
