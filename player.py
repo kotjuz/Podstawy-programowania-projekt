@@ -119,6 +119,32 @@ class Player:
         print(horizontal_border)
 
 
+    def shoot_or_show_board(self):
+        print(f"Graczu {self.name}! Twoja kolej.")
+        print("""+-------------------------------------+
+|                                     |
+|     1. Oddaj strzał                 |
+|     2. Zobacz swoją planszę         |
+|                                     |
++-------------------------------------+
+""")
+        chose = input(": ")
+        if chose != "1" and chose != "2":
+            print("Masz do wyboru tylko '1' lub '2', nic wiecej.")
+            time.sleep(1.5)
+            os.system("cls")
+            self.shoot_or_show_board()
+        elif chose == "1":
+            os.system("cls")
+            self.shoot()
+        elif chose == "2":
+            os.system("cls")
+            self.print_board(self.board)
+            input("Aby wyjsc, nacisnij ENTER.")
+            os.system("cls")
+            self.shoot_or_show_board()
+
+
     def shoot(self):
         self.print_board(self.shoots_board)
         print(f"Graczu {self.name}! Twoja kolej na strzal")

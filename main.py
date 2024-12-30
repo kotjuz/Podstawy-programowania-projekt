@@ -46,6 +46,8 @@ player2.set_enemy_board(player1.board)
 
 while True:
     os.system('cls')
-    player1.shoot()
+    player1.shoot_or_show_board()
+    # player1.shoot()
     os.system('cls')
-    player2.shoot()
+    player2.shoot_or_show_board()
+    # player2.shoot()
