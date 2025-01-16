@@ -1,3 +1,11 @@
-Battleships project for school.
+Celem gry jest zatopienie wszystkich statków przeciwnika poprzez rozmieszczanie własnych statków i oddawanie strzałów na planszy przeciwnika.
 
-Best to launch in terminal (PS/Bash) because only then, clearing screen works.
+Sposób Uruchomienia:
+
+-Upewnij się, że posiadasz wszystkie pliki w tym samym folderze co główny skrypt.
+
+-Uruchom skrypt w terminalu:
+
+python main.py
+
+-Postępuj zgodnie z instrukcjami wyświetlanymi na ekranie.
